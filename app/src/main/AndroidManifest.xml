@@ -9,14 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".BuscarUsuario"></activity>
-        <activity android:name=".foto" />
-        <activity android:name=".agregar_foto">
+        <activity android:name=".BuscarUsuario">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity android:name=".foto" />
+        <activity android:name=".agregar_foto">
+
         </activity>
         <activity android:name=".Act_CompararDirecciones" />
         <activity android:name=".modificar_contrasenia" />
