@@ -93,7 +93,7 @@
         tools:text="Por favor indique si la dirección\nque ha evaluado es la misma\n que registró el usuario." />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/btnContinuar"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"

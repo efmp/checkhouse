@@ -18,7 +18,7 @@
         android:background="@drawable/success_process"/>
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/lblMensaje"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -31,7 +31,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/btnGoTo"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="100dp"

@@ -14,7 +14,17 @@ public class Usuario {
         this.tipo = tipo;
         this.estado = estado;
     }
-
+    public Usuario(String nombres, String apellidos, String correo, String dni, String password) {
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.correo = correo;
+        this.dni = dni;
+        this.password = password;
+    }
+    public Usuario(int id, int idvivienda) {
+        this.id = id;
+        this.idvivienda = idvivienda;
+    }
 
     private int id;
     private String nombres;
