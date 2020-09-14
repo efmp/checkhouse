@@ -3,6 +3,7 @@
     package="com.emaza.checkhouse">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,6 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".alertas_verificacion"></activity>
+        <activity android:name=".iniciar_verificacion" />
+        <activity android:name=".restablecer_contrasenia" />
         <activity android:name=".Maps">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,11 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BuscarUsuario">
-
-        </activity>
+        <activity android:name=".BuscarUsuario" />
         <activity android:name=".foto" />
-        <activity android:name=".agregar_foto"></activity>
+        <activity android:name=".agregar_foto" />
         <activity android:name=".Act_CompararDirecciones" />
         <activity android:name=".modificar_contrasenia" />
         <activity android:name=".lista_de_verificaciones" />
