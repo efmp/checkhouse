@@ -14,7 +14,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/logo_checkhouse" />
+        tools:srcCompat="@drawable/success_process"
+        android:background="@drawable/success_process"/>
 
     <TextView
         android:id="@+id/textView3"
