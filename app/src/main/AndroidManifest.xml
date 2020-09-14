@@ -11,17 +11,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Maps">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".BuscarUsuario">
 
         </activity>
         <activity android:name=".foto" />
-        <activity android:name=".agregar_foto"></activity>
+        <activity android:name=".agregar_foto">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+
+        </activity>
         <activity android:name=".Act_CompararDirecciones" />
         <activity android:name=".modificar_contrasenia" />
         <activity android:name=".lista_de_verificaciones" />
