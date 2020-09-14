@@ -2,24 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.emaza.checkhouse.login">
-    <ImageView
-        android:id="@+id/logoImage"
-        android:layout_width="170dp"
-        android:layout_height="170dp"
-        android:layout_marginTop="70dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/logo_checkhouse"
-        android:background="@drawable/logo_checkhouse"
-
-        android:contentDescription="TODO" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnCrearCuenta"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
@@ -29,10 +18,10 @@
         android:textAllCaps="false"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/lnkOlvideClave" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnIngresar"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -43,37 +32,49 @@
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/lnkOlvideClave" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/txtCorreo"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:ems="10"
         android:hint="Correo"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoImage" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/txtPassword"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:ems="10"
         android:hint="Contraseña"
-        android:inputType="textPersonName"
+        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/txtCorreo" />
 
+    <ImageView
+        android:id="@+id/logoImage"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/logo_checkhouse"
+        android:contentDescription="TODO"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        tools:srcCompat="@drawable/logo_checkhouse" />
 
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/lnkOlvideClave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -81,5 +82,5 @@
         android:textColor="#3754F6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+        app:layout_constraintTop_toBottomOf="@+id/txtPassword" />
 </androidx.constraintlayout.widget.ConstraintLayout>

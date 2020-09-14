@@ -15,13 +15,14 @@
         <activity android:name=".alertas_verificacion"/>
         <activity android:name=".iniciar_verificacion" />
         <activity android:name=".restablecer_contrasenia" />
-        <activity android:name=".login"/>
-        <activity android:name=".Maps">
+        <activity android:name=".login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".Maps">
         </activity>
         <activity android:name=".BuscarUsuario"/>
         <activity android:name=".foto" />
@@ -46,11 +47,6 @@
         <activity android:name=".crearcuenta_3" />
         <activity android:name=".crearcuenta_2" />
         <activity android:name=".crearcuenta_1">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
 
