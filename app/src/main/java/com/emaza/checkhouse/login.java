@@ -28,7 +28,9 @@ import com.google.gson.JsonParser;
 
 public class login extends AppCompatActivity {
 
+
     ConstraintLayout layout;
+    TextView lblOlvido;
     TextView txtCorreo, txtPassword;
     Button btnCrearCuenta, btnIngresar;
     @Override
@@ -44,6 +46,7 @@ public class login extends AppCompatActivity {
         txtPassword = findViewById(R.id.txtPassword);
         btnCrearCuenta = findViewById(R.id.btnCrearCuenta);
         btnIngresar = findViewById(R.id.btnIngresar);
+        lblOlvido = findViewById(R.id.lnkOlvideClave);
 
         btnCrearCuenta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +69,14 @@ public class login extends AppCompatActivity {
                 cerrarteclado();
             }
         });
+        lblOlvido.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent Maps = new Intent(login.this, Maps.class);
+                setResult(Activity.RESULT_OK,Maps);
+                startActivity(Maps);
+            }
+        });
     }
 
     private void hacerLogin(){
@@ -81,7 +92,7 @@ public class login extends AppCompatActivity {
                     //pw123
                     JsonObject json = new JsonParser().parse(response.trim()).getAsJsonObject();
                     if(correo.equals(json.get("correo").getAsString()) && password.equals(json.get("password").getAsString())){
-                        Intent home = new Intent(login.this, lista_de_solicitudes_vacia.class);
+                        Intent home = new Intent(login.this, Lista_de_solicitudes_terminada.class);
                         setResult(Activity.RESULT_OK,home);
                         startActivity(home);
                         Toast.makeText(login.this,"Usted se puede loguear",Toast.LENGTH_SHORT).show();

@@ -84,7 +84,7 @@
                     android:textStyle="bold" />
 
                 <Button
-                    android:id="@+id/button7"
+                    android:id="@+id/btnEmpezar1"
                     android:layout_width="159dp"
                     android:layout_height="wrap_content"
                     android:background="@color/buttomblue"
