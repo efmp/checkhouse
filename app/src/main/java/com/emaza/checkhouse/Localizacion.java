@@ -31,9 +31,16 @@ public class Localizacion implements LocationListener {
     @Override
     public void onLocationChanged(@NonNull Location location) {
         //Este m se ejecuta cuando el GPS recibe nuevas coordenadas
-        String texto = "Mi ubicación es : "+ "\n Latitud :" + location.getLatitude()+
-                                        "\n Longitud :" + location.getLongitude();
+        //String texto = "Mi ubicación es : "+ "\n Latitud :" + location.getLatitude()+
+                                      //  "\n Longitud :" + location.getLongitude();
 
+        //txtMensaje.setText(texto);
+        //mapa(location.getLatitude(), location.getLongitude());
+
+        //Este método se ejecuta cuando el GPS recibe nuevas coordenadas
+        String texto = "Mi ubicación es: "+
+                "\nLatitud = "+location.getLatitude()+
+                "\nLongitud = "+location.getLongitude();
         txtMensaje.setText(texto);
         mapa(location.getLatitude(), location.getLongitude());
     }

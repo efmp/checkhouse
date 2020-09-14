@@ -42,7 +42,11 @@
         <activity android:name=".crearcuenta_3" />
         <activity android:name=".crearcuenta_2" />
         <activity android:name=".crearcuenta_1" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity">
+
+        </activity>
+
+
 
         <meta-data
             android:name="com.google.android.gms.version"
