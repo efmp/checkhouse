@@ -39,7 +39,10 @@ public class crearcuenta_2 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Usuario user = obtenerDatos();
-                irACrearCuentaPaso3(user);
+                if(user != null){
+                    irACrearCuentaPaso3(user);
+                }
+
             }
         });
         layout.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +85,6 @@ public class crearcuenta_2 extends AppCompatActivity {
                 Toast.makeText(this,"las contraseñas son distintas",Toast.LENGTH_SHORT).show();
             }
         }
-        //Toast.makeText(this, correo, Toast.LENGTH_LONG).show();
         return null;
     }
 

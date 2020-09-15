@@ -1,9 +1,11 @@
 package com.emaza.checkhouse;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,10 +47,49 @@ public class crearcuenta_3 extends AppCompatActivity {
                 if(terms.isChecked()){
                     registrarUsuario();
                 }else {
-                    Toast toast = Toast.makeText(crearcuenta_3.this, "Debe aceptar los terminos y condiciones para continuar.", Toast.LENGTH_LONG);
+                    Toast.makeText(crearcuenta_3.this, "Debe aceptar los terminos y condiciones para continuar.", Toast.LENGTH_LONG).show();
                 }
             }
         });
+
+        btnNoAcepto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                confirmar();
+            }
+        });
+    }
+
+    private void confirmar() {
+        AlertDialog.Builder alerta = new AlertDialog.Builder(this);
+        alerta.setMessage("Esta seguro que desea eliminar este producto?")
+                .setCancelable(false)
+                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        regresarALogin();
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+        AlertDialog titulo = alerta.create();
+        titulo.setTitle("Esta seguro que quiere regresar a login?");
+        titulo.show();
+    }
+
+    private void regresarALogin(){
+        Intent login = new Intent(this, login.class);
+        Bundle b = new Bundle();
+        String mensaje = "Completó correctamente el registro.";
+        b.putString("mensaje",mensaje);
+        login.putExtras(b);
+        setResult(Activity.RESULT_OK,login);
+        startActivity(login);
     }
 
     private void registrarUsuario(){
