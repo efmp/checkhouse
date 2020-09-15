@@ -28,11 +28,12 @@ import com.google.gson.JsonParser;
 
 public class login extends AppCompatActivity {
 
-
+    String solicitudes;
     ConstraintLayout layout;
     TextView lblOlvido;
     TextView txtCorreo, txtPassword;
     Button btnCrearCuenta, btnIngresar;
+    private JsonObject usuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +48,8 @@ public class login extends AppCompatActivity {
         btnCrearCuenta = findViewById(R.id.btnCrearCuenta);
         btnIngresar = findViewById(R.id.btnIngresar);
         lblOlvido = findViewById(R.id.lnkOlvideClave);
+        txtCorreo.setText("prueba@correo.com");
+        txtPassword.setText("pw123");
 
         btnCrearCuenta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,11 +93,9 @@ public class login extends AppCompatActivity {
                 try {
                     //prueba@correo.com
                     //pw123
-                    JsonObject json = new JsonParser().parse(response.trim()).getAsJsonObject();
-                    if(correo.equals(json.get("correo").getAsString()) && password.equals(json.get("password").getAsString())){
-                        Intent home = new Intent(login.this, Lista_de_solicitudes_terminada.class);
-                        setResult(Activity.RESULT_OK,home);
-                        startActivity(home);
+                     usuario = new JsonParser().parse(response.trim()).getAsJsonObject();
+                    if(correo.equals(usuario.get("correo").getAsString()) && password.equals(usuario.get("password").getAsString())){
+                       irSiguientePantalla();
                         Toast.makeText(login.this,"Usted se puede loguear",Toast.LENGTH_SHORT).show();
                     }else{
                         Toast.makeText(login.this,"Usuario o contraseña incorrecto",Toast.LENGTH_SHORT).show();
@@ -109,8 +110,21 @@ public class login extends AppCompatActivity {
                 Log.i("--->>", error.toString());
             }
         });
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+
+    }
+    private void irSiguientePantalla(){
+
+        Intent listaSolicitudes = new Intent(this, ListaSolicitudes.class);
+        Bundle b = new Bundle();
+        b.putString("data", usuario.toString());
+        b.putString("dataSolicitudes", solicitudes);
+        listaSolicitudes.putExtras(b);
+        setResult(Activity.RESULT_OK,listaSolicitudes);
+        startActivity(listaSolicitudes);
+
 
     }
 
@@ -120,5 +134,31 @@ public class login extends AppCompatActivity {
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    public void obtenerDataSolicitudes(){
+
+        String url = "http://checkhouseapi.atwebpages.com/index.php/solicitudes/" + "4";
+
+        StringRequest stringRequest2 = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    System.out.println(response);
+                  solicitudes = response;
+                    System.out.println("RESPUESTA: "+response);
+                } catch (Exception error) {
+                    Log.i("--->>", error.toString());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i("--->>", error.toString());
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest2);
+
     }
 }
