@@ -11,50 +11,48 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-
-
-
-
-
     TextView txtMensaje;
-    private EditText Usuario, Password;
-    private Button Login;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         asignarReferencias();
 
-        Usuario = (EditText)findViewById(R.id.txtUsuario);
-        Password = (EditText)findViewById(R.id.txtContraseña);
-        Login = (Button) findViewById(R.id.btnIngresar);
+        //Animaciones
+        // Agregar animaciones
+        Animation animacion1 = AnimationUtils.loadAnimation(this, R.anim.desplazamiento_arriba);
+        Animation animacion2 = AnimationUtils.loadAnimation(this, R.anim.desplazamiento_abajo);
 
-        Login.setOnClickListener(new View.OnClickListener() {
+
+        TextView codeliaTextView = findViewById(R.id.lblCheckHouse);
+        ImageView logoImageView = findViewById(R.id.logoImageView);
+        codeliaTextView.setAnimation(animacion2);
+        logoImageView.setAnimation(animacion1);
+
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onClick(View view) {
-                validate(Usuario.getText().toString(), Password.getText().toString());
+            public void run() {
+                Intent intent = new Intent(MainActivity.this, login.class);
+                startActivity(intent);
+                finish();
             }
-        });
+        }, 4000);
     }
-    private void validate (String userName, String userPassword){
-        if(userName.equals("72012380") && userPassword.equals("abc123")){
-            Intent intent = new Intent(MainActivity.this, Lista_de_solicitudes_terminada.class);
-            startActivity(intent);
-        }
-        else{
-            Toast.makeText(getApplicationContext(), "Usuario o Contraseña incorrecta", Toast.LENGTH_SHORT).show();
-        }
-    }
+
 
     private void asignarReferencias() {
         txtMensaje = findViewById(R.id.txtMensaje);
@@ -86,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
 
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,10000,0,localizacion);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,10000,0,localizacion);
-
         txtMensaje.setText("Localización agregada");
     }
 
