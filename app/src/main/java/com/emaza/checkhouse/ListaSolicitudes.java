@@ -153,7 +153,11 @@ public class ListaSolicitudes extends AppCompatActivity {
             datos[i][2] = jsonArray.get(i).getAsJsonObject().get("nombres").getAsString();
             datos[i][3] = jsonArray.get(i).getAsJsonObject().get("apellidos").getAsString();
             datos[i][4] = jsonArray.get(i).getAsJsonObject().get("dni").getAsString();
-            datos[i][5] = null;
+            if(jsonArray.get(i).getAsJsonObject().get("vivienda").isJsonNull()){
+                datos[i][5] = null;
+            }else{
+                datos[i][5] = jsonArray.get(i).getAsJsonObject().get("vivienda").getAsString();
+            }
             datos[i][6] = jsonArray.get(i).getAsJsonObject().get("banco").getAsString();
             datos[i][7] = jsonArray.get(i).getAsJsonObject().get("estado").getAsString();
         }
