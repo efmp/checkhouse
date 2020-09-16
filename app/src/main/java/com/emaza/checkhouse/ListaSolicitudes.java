@@ -61,7 +61,7 @@ public class ListaSolicitudes extends AppCompatActivity {
             usuario_json = new JsonParser().parse(data).getAsJsonObject();
         }
         asignarReferencias();
-        //accionGetDataSolicitud();
+        accionGetDataSolicitud();
     }
 
     private void asignarReferencias() {
@@ -73,7 +73,7 @@ public class ListaSolicitudes extends AppCompatActivity {
             public void onClick(View view) {
                 //obtenerData();
                 //mostrarSolicitudes();
-                accionGetDataSolicitud();
+
 
             }
         });
