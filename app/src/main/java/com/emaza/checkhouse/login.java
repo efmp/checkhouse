@@ -28,7 +28,7 @@ import com.google.gson.JsonParser;
 
 public class login extends AppCompatActivity {
 
-    String solicitudes;
+
     ConstraintLayout layout;
     TextView lblOlvido;
     TextView txtCorreo, txtPassword;
@@ -120,12 +120,9 @@ public class login extends AppCompatActivity {
         Intent listaSolicitudes = new Intent(this, ListaSolicitudes.class);
         Bundle b = new Bundle();
         b.putString("data", usuario.toString());
-        b.putString("dataSolicitudes", solicitudes);
         listaSolicitudes.putExtras(b);
         setResult(Activity.RESULT_OK,listaSolicitudes);
         startActivity(listaSolicitudes);
-
-
     }
 
     private void cerrarteclado() {
@@ -136,29 +133,4 @@ public class login extends AppCompatActivity {
         }
     }
 
-    public void obtenerDataSolicitudes(){
-
-        String url = "http://checkhouseapi.atwebpages.com/index.php/solicitudes/" + "4";
-
-        StringRequest stringRequest2 = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    System.out.println(response);
-                  solicitudes = response;
-                    System.out.println("RESPUESTA: "+response);
-                } catch (Exception error) {
-                    Log.i("--->>", error.toString());
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.i("--->>", error.toString());
-            }
-        });
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest2);
-
-    }
 }

@@ -28,6 +28,7 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.CountDownLatch;
 
 public class ListaSolicitudes extends AppCompatActivity {
 
@@ -52,7 +53,7 @@ public class ListaSolicitudes extends AppCompatActivity {
             usuario_json = new JsonParser().parse(data).getAsJsonObject();
         }
         asignarReferencias();
-
+        accionGetDataSolicitud();
         //obtenerData();
         //mostrarSolicitudes();
     }
@@ -65,8 +66,10 @@ public class ListaSolicitudes extends AppCompatActivity {
         lblNombreUsuario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                obtenerData();
-                mostrarSolicitudes();
+                //obtenerData();
+                //mostrarSolicitudes();
+                accionGetDataSolicitud();
+                System.out.println("DATA:"+scode);
             }
         });
 
@@ -78,11 +81,62 @@ public class ListaSolicitudes extends AppCompatActivity {
         });
     }
 
-    public void transformarData(){
-        Bundle extras = getIntent().getExtras();
-        String data = "";
-        data = extras.getString("dataSolicitudes");
+    String scode;
+    private void accionGetDataSolicitud(){
+        String keyName = usuario_json.get("id").getAsString();
+        String url = "http://checkhouseapi.atwebpages.com/index.php/solicitudes/" + keyName;
+        hacerGet(url, new DataResponseListener() {
+            @Override
+            public void onResponseData(String codigo) {
+                if (codigo == null) {//si el código recibido es null
+                    Toast.makeText(ListaSolicitudes.this,"Sin respuesta del servidor\nIntentelo de nuevo",Toast.LENGTH_SHORT).show();
+                } else {
+                    System.out.println(codigo);
+                    transformarData(codigo);
+                    mostrarSolicitudes();
+                    Toast.makeText(ListaSolicitudes.this,"Estado 200 OK",Toast.LENGTH_SHORT).show();
 
+                    if (codigo.contains("<0>")){
+                        System.out.println("todo correcto");
+                    }
+                    else {
+                        System.out.println("hubo algun error");
+                    }
+                }
+
+            }
+        });
+    }
+
+    private void hacerGet(String url, final DataResponseListener mListener){
+        scode = null;
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response == "") scode = "Sin respuesta";
+                        else scode = response;
+                        if (mListener != null){
+                            mListener.onResponseData(scode);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                scode = error.getMessage();
+                if (mListener != null){
+                    mListener.onResponseData(scode);
+                }
+            }
+        });
+            queue.add(stringRequest);
+    }
+    public interface DataResponseListener {
+        void onResponseData(String data);
+    }
+
+    public void transformarData(String data){
         JsonArray jsonArray = new Gson().fromJson(data,JsonArray.class);
         for (int i=0;i<jsonArray.size();i++){
             Solicitud solicitud = new Solicitud(
@@ -98,44 +152,7 @@ public class ListaSolicitudes extends AppCompatActivity {
         System.out.println(listaSolicitudes.get(0).getNombres());
         System.out.println("orueta");
     }
-    public void obtenerData(){
-        String keyName = usuario_json.get("id").getAsString();
-        String url = "http://checkhouseapi.atwebpages.com/index.php/solicitudes/" + keyName;
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JsonArray jsonArray = new Gson().fromJson(response,JsonArray.class);
-                    for (int i=0;i<jsonArray.size();i++){
-                        Solicitud solicitud = new Solicitud(
-                        jsonArray.get(i).getAsJsonObject().get("id").getAsInt(),
-                        jsonArray.get(i).getAsJsonObject().get("usuario").getAsInt(),
-                        jsonArray.get(i).getAsJsonObject().get("nombres").getAsString(),
-                        jsonArray.get(i).getAsJsonObject().get("apellidos").getAsString(),
-                        jsonArray.get(i).getAsJsonObject().get("dni").getAsString(),
-                        jsonArray.get(i).getAsJsonObject().get("banco").getAsString(),
-                        jsonArray.get(i).getAsJsonObject().get("estado").getAsString());
-                        listaSolicitudes.add(solicitud);
-                    }
-                    System.out.println(listaSolicitudes.get(0).getNombres());
-                    System.out.println("RESPONSE"+listaSolicitudes);
-
-
-                } catch (Exception error) {
-                    Log.i("--->>", error.toString());
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.i("--->>", error.toString());
-            }
-        });
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-        System.out.println("existe solicitud");
-    }
     public void mostrarSolicitudes(){
         //listaProductos = daoProducto.cargarProductos();
         if (listaSolicitudes.size()<1){
