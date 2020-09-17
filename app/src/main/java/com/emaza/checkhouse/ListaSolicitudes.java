@@ -33,17 +33,7 @@ import java.util.concurrent.CountDownLatch;
 
 public class ListaSolicitudes extends AppCompatActivity {
 
-    //String[][] datos;
-//            = {
-//            {"1","4","Juan","apellidos","32165487",null,"Interbank","Pendiente"},
-//            {"2","4","Juan","Peru","12345678",null,"BCP","Pendiente"}
-//    };
     int[] datosImg = {R.drawable.bcpicon,R.drawable.interbank};
-
-
-    String[] from = new String[]{"descripcion","estado"};
-    int[] to = new int[]{R.id.txtDescripcion, R.id.txtEstado};
-
     JsonObject usuario_json;
     TextView lblNombreUsuario;
     TextView txtNoSolicitudes;

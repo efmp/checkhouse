@@ -47,10 +47,10 @@ public class solicitudesAdapter extends BaseAdapter {
         String texto= datos[i][6]+" ha solicitado que Ud. realice la verificación de su domicilio";
         txtDescripcion.setText(texto);
         txtEstado.setText(datos[i][7]);
-        int indexImagen=0;
-        if(datos[i][6].equals("Interbank")){
+        int indexImagen=-1;
+        if(datos[i][6].equalsIgnoreCase("Interbank")){
             indexImagen=1;
-        }else if(datos[i][6].equals("BCP")){
+        }else if(datos[i][6].equalsIgnoreCase("BCP")){
             indexImagen=0;
         }
         imgBanco.setImageResource(datosImg[indexImagen]);
