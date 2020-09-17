@@ -75,9 +75,9 @@ public class login extends AppCompatActivity {
         lblOlvido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent Maps = new Intent(login.this, Maps.class);
-                setResult(Activity.RESULT_OK,Maps);
-                startActivity(Maps);
+                Intent reestablecer = new Intent(login.this, restablecer_contrasenia.class);
+                setResult(Activity.RESULT_OK,reestablecer);
+                startActivity(reestablecer);
             }
         });
     }
@@ -96,10 +96,10 @@ public class login extends AppCompatActivity {
                      usuario = new JsonParser().parse(response.trim()).getAsJsonObject();
                     if(correo.equals(usuario.get("correo").getAsString()) && password.equals(usuario.get("password").getAsString())){
                         if(usuario.get("tipo").getAsString().equals("usuario")){
-                            irSiguientePantalla_Solicitante();
+                            irSiguientePantalla_Usuario();
                         }else if(usuario.get("tipo").getAsString().equals("admin")){
                             //todo something
-
+                            irSiguientePantalla_Admin();
                         }
 
                         Toast.makeText(login.this,"Usted se puede loguear",Toast.LENGTH_SHORT).show();
@@ -121,14 +121,21 @@ public class login extends AppCompatActivity {
         requestQueue.add(stringRequest);
 
     }
-    private void irSiguientePantalla_Solicitante(){
-
+    private void irSiguientePantalla_Usuario(){
         Intent listaSolicitudes = new Intent(this, ListaSolicitudes.class);
         Bundle b = new Bundle();
         b.putString("data", usuario.toString());
         listaSolicitudes.putExtras(b);
         setResult(Activity.RESULT_OK,listaSolicitudes);
         startActivity(listaSolicitudes);
+    }
+    private void irSiguientePantalla_Admin(){
+        Intent listaVerificaciones = new Intent(this, lista_de_verificaciones.class);
+        Bundle b = new Bundle();
+        b.putString("data", usuario.toString());
+        listaVerificaciones.putExtras(b);
+        setResult(Activity.RESULT_OK,listaVerificaciones);
+        startActivity(listaVerificaciones);
     }
 
     private void cerrarteclado() {
