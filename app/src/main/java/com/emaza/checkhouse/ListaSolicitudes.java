@@ -46,6 +46,7 @@ public class ListaSolicitudes extends AppCompatActivity {
 
     JsonObject usuario_json;
     TextView lblNombreUsuario;
+    TextView txtNoSolicitudes;
     ListView lstSolicitudes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,14 +68,12 @@ public class ListaSolicitudes extends AppCompatActivity {
     private void asignarReferencias() {
         lstSolicitudes = findViewById(R.id.lstSolicitudes);
         lblNombreUsuario = findViewById(R.id.lblNombre);
+        txtNoSolicitudes = findViewById(R.id.txtNoSolicitudes);
+        txtNoSolicitudes.setVisibility(View.INVISIBLE);
         lblNombreUsuario.setText(usuario_json.get("nombres").getAsString());
         lblNombreUsuario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //obtenerData();
-                //mostrarSolicitudes();
-
-
             }
         });
 
@@ -95,23 +94,24 @@ public class ListaSolicitudes extends AppCompatActivity {
         String url = "http://checkhouseapi.atwebpages.com/index.php/solicitudes/" + keyName;
         hacerGet(url, new DataResponseListener() {
             @Override
-            public void onResponseData(String codigo) {
-                if (codigo == null) {//si el código recibido es null
-                    Toast.makeText(ListaSolicitudes.this,"Sin respuesta del servidor\nIntentelo de nuevo",Toast.LENGTH_SHORT).show();
-                } else {
-                    System.out.println("Resultado"+codigo);
-                    String[][] datos = transformarData(codigo);
-                    lstSolicitudes.setAdapter(new solicitudesAdapter(ListaSolicitudes.this,datos,datosImg));
-                    Toast.makeText(ListaSolicitudes.this,"Estado 200 OK",Toast.LENGTH_SHORT).show();
-
-                    if (codigo.contains("<0>")){
+            public void onResponseData(String data) {
+                JsonArray jsonArray = new Gson().fromJson(data,JsonArray.class);
+                if(jsonArray.size()==0){
+                    //Toast.makeText(ListaSolicitudes.this,"Igual a Cero",Toast.LENGTH_SHORT).show();
+                    txtNoSolicitudes.setVisibility(View.VISIBLE);
+                }
+                else if(jsonArray.size()>0){
+                    //Toast.makeText(ListaSolicitudes.this,"Mayor a Cero",Toast.LENGTH_SHORT).show();
+                    if (!data.equals("")){
                         System.out.println("todo correcto");
+                        String[][] datos = transformarData(data);
+                        lstSolicitudes.setAdapter(new solicitudesAdapter(ListaSolicitudes.this,datos,datosImg));
+                        Toast.makeText(ListaSolicitudes.this,"Estado 200 OK",Toast.LENGTH_SHORT).show();
                     }
                     else {
                         System.out.println("hubo algun error");
                     }
                 }
-
             }
         });
     }

@@ -95,7 +95,13 @@ public class login extends AppCompatActivity {
                     //pw123
                      usuario = new JsonParser().parse(response.trim()).getAsJsonObject();
                     if(correo.equals(usuario.get("correo").getAsString()) && password.equals(usuario.get("password").getAsString())){
-                       irSiguientePantalla();
+                        if(usuario.get("tipo").getAsString().equals("usuario")){
+                            irSiguientePantalla_Solicitante();
+                        }else if(usuario.get("tipo").getAsString().equals("admin")){
+                            //todo something
+
+                        }
+
                         Toast.makeText(login.this,"Usted se puede loguear",Toast.LENGTH_SHORT).show();
                     }else{
                         Toast.makeText(login.this,"Usuario o contraseña incorrecto",Toast.LENGTH_SHORT).show();
@@ -115,7 +121,7 @@ public class login extends AppCompatActivity {
         requestQueue.add(stringRequest);
 
     }
-    private void irSiguientePantalla(){
+    private void irSiguientePantalla_Solicitante(){
 
         Intent listaSolicitudes = new Intent(this, ListaSolicitudes.class);
         Bundle b = new Bundle();
