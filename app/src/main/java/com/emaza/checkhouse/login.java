@@ -95,12 +95,17 @@ public class login extends AppCompatActivity {
                     //pw123
                      usuario = new JsonParser().parse(response.trim()).getAsJsonObject();
                     if(correo.equals(usuario.get("correo").getAsString()) && password.equals(usuario.get("password").getAsString())){
-                        if(usuario.get("tipo").getAsString().equals("usuario")){
-                            irSiguientePantalla_Usuario();
-                        }else if(usuario.get("tipo").getAsString().equals("admin")){
-                            //todo something
-                            irSiguientePantalla_Admin();
+                        if(usuario.get("estado").getAsString().equalsIgnoreCase("activo")){
+                            if(usuario.get("tipo").getAsString().equals("usuario")){
+                                System.out.println("login tipo usuarioo");
+                                irSiguientePantalla_Usuario();
+                            }else if(usuario.get("tipo").getAsString().equals("admin")){
+                                irSiguientePantalla_Admin();
+                            }
+                        }else{
+                            Toast.makeText(login.this,"Usted se encuentra bloqueado",Toast.LENGTH_SHORT).show();
                         }
+
 
                         Toast.makeText(login.this,"Usted se puede loguear",Toast.LENGTH_SHORT).show();
                     }else{

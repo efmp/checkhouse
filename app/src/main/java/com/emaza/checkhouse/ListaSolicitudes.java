@@ -33,7 +33,7 @@ import java.util.concurrent.CountDownLatch;
 
 public class ListaSolicitudes extends AppCompatActivity {
 
-    int[] datosImg = {R.drawable.bcpicon,R.drawable.interbank};
+    int[] datosImg;
     JsonObject usuario_json;
     TextView lblNombreUsuario;
     TextView txtNoSolicitudes;
@@ -61,21 +61,6 @@ public class ListaSolicitudes extends AppCompatActivity {
         txtNoSolicitudes = findViewById(R.id.txtNoSolicitudes);
         txtNoSolicitudes.setVisibility(View.INVISIBLE);
         lblNombreUsuario.setText(usuario_json.get("nombres").getAsString());
-        lblNombreUsuario.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
-
-
-        lstSolicitudes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-            }
-        });
-
-        //lstSolicitudes.setAdapter(new solicitudesAdapter(this,datos,datosImg));
     }
 
     String scode;
@@ -93,9 +78,12 @@ public class ListaSolicitudes extends AppCompatActivity {
                 else if(jsonArray.size()>0){
                     //Toast.makeText(ListaSolicitudes.this,"Mayor a Cero",Toast.LENGTH_SHORT).show();
                     if (!data.equals("")){
-                        System.out.println("todo correcto");
-                        String[][] datos = transformarData(data);
+
+                        JsonArray jsonResponse= new Gson().fromJson(data,JsonArray.class);
+                        String [][] datos = transformarData(jsonResponse);
+                        System.out.println("CANTIDAD:"+data.length());
                         lstSolicitudes.setAdapter(new solicitudesAdapter(ListaSolicitudes.this,datos,datosImg));
+                        System.out.println("!!!todo correcto");
                         Toast.makeText(ListaSolicitudes.this,"Estado 200 OK",Toast.LENGTH_SHORT).show();
                     }
                     else {
@@ -128,28 +116,37 @@ public class ListaSolicitudes extends AppCompatActivity {
                 }
             }
         });
-            queue.add(stringRequest);
+        queue.add(stringRequest);
     }
     public interface DataResponseListener {
         void onResponseData(String data);
     }
 
-    public String[][] transformarData(String data){
-        JsonArray jsonArray = new Gson().fromJson(data,JsonArray.class);
-        String[][] datos = new String[jsonArray.size()][8];
-        for (int i=0;i<jsonArray.size();i++){
-            datos[i][0] = jsonArray.get(i).getAsJsonObject().get("id").getAsString();
-            datos[i][1] = jsonArray.get(i).getAsJsonObject().get("usuario").getAsString();
-            datos[i][2] = jsonArray.get(i).getAsJsonObject().get("nombres").getAsString();
-            datos[i][3] = jsonArray.get(i).getAsJsonObject().get("apellidos").getAsString();
-            datos[i][4] = jsonArray.get(i).getAsJsonObject().get("dni").getAsString();
-            if(jsonArray.get(i).getAsJsonObject().get("vivienda").isJsonNull()){
+    public String[][] transformarData(JsonArray jsonData){
+        String[][] datos = new String[jsonData.size()][8];
+        for (int i=0;i<jsonData.size();i++){
+            datos[i][0] = jsonData.get(i).getAsJsonObject().get("id").getAsString();
+            datos[i][1] = jsonData.get(i).getAsJsonObject().get("usuario").getAsString();
+            datos[i][2] = jsonData.get(i).getAsJsonObject().get("nombres").getAsString();
+            datos[i][3] = jsonData.get(i).getAsJsonObject().get("apellidos").getAsString();
+            datos[i][4] = jsonData.get(i).getAsJsonObject().get("dni").getAsString();
+            if(jsonData.get(i).getAsJsonObject().get("vivienda").isJsonNull()){
                 datos[i][5] = null;
             }else{
-                datos[i][5] = jsonArray.get(i).getAsJsonObject().get("vivienda").getAsString();
+                datos[i][5] = jsonData.get(i).getAsJsonObject().get("vivienda").getAsString();
             }
-            datos[i][6] = jsonArray.get(i).getAsJsonObject().get("banco").getAsString();
-            datos[i][7] = jsonArray.get(i).getAsJsonObject().get("estado").getAsString();
+            datos[i][6] = jsonData.get(i).getAsJsonObject().get("banco").getAsString();
+            datos[i][7] = jsonData.get(i).getAsJsonObject().get("estado").getAsString();
+            datosImg = new int[jsonData.size()];
+            datosImg[i] = R.drawable.banco_vacio;
+//            if(datos[i][6].equalsIgnoreCase("BCP")){
+//                datosImg[i] = R.drawable.bcpicon;
+//            }else if(datos[i][6].equalsIgnoreCase("Interbank")){
+//                datosImg[i] = R.drawable.interbank;
+//            }else{
+//                System.out.println("datos imagen no tiene contenido");
+//            }
+
         }
         System.out.println("dataobjeto:"+datos[0][0]);
         return  datos;

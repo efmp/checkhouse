@@ -17,7 +17,7 @@ public class lista_de_verificaciones extends AppCompatActivity {
 
     Button btnEvaluar, btnRegistrarSolicitud;
     ImageView imgBanco;
-    int[] datosImg = {R.drawable.bcpicon,R.drawable.interbank};
+    int[] datosImg = {R.drawable.banco_vacio,R.drawable.bcpicon,R.drawable.interbank};
     JsonObject usuario_json;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +40,11 @@ public class lista_de_verificaciones extends AppCompatActivity {
         imgBanco = findViewById(R.id.imgBanco);
 
 
-        int indexImagen=-1;
-        if(usuario_json.get("empresa").getAsString().equals("Interbank")){
+        int indexImagen=0;
+        if(usuario_json.get("empresa").getAsString().equalsIgnoreCase("Interbank")){
+            indexImagen=2;
+        }else if(usuario_json.get("empresa").getAsString().equalsIgnoreCase("BCP")){
             indexImagen=1;
-        }else if(usuario_json.get("empresa").getAsString().equals("BCP")){
-            indexImagen=0;
         }
         if(indexImagen>0){
             imgBanco.setImageResource(datosImg[indexImagen]);
