@@ -84,7 +84,7 @@ public class ListaSolicitudes extends AppCompatActivity {
                         System.out.println("CANTIDAD:"+data.length());
                         lstSolicitudes.setAdapter(new solicitudesAdapter(ListaSolicitudes.this,datos,datosImg));
                         System.out.println("!!!todo correcto");
-                        Toast.makeText(ListaSolicitudes.this,"Estado 200 OK",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(ListaSolicitudes.this,"Estado 200 OK",Toast.LENGTH_SHORT).show();
                     }
                     else {
                         System.out.println("hubo algun error");

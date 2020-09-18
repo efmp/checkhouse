@@ -48,8 +48,11 @@ public class login extends AppCompatActivity {
         btnCrearCuenta = findViewById(R.id.btnCrearCuenta);
         btnIngresar = findViewById(R.id.btnIngresar);
         lblOlvido = findViewById(R.id.lnkOlvideClave);
-        txtCorreo.setText("prueba@correo.com");
-        txtPassword.setText("pw123");
+
+        //prueba@correo.com
+        //pw123
+        txtCorreo.setText("admin");
+        txtPassword.setText("admin");
 
         btnCrearCuenta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,8 +94,7 @@ public class login extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 try {
-                    //prueba@correo.com
-                    //pw123
+
                      usuario = new JsonParser().parse(response.trim()).getAsJsonObject();
                     if(correo.equals(usuario.get("correo").getAsString()) && password.equals(usuario.get("password").getAsString())){
                         if(usuario.get("estado").getAsString().equalsIgnoreCase("activo")){
@@ -105,9 +107,6 @@ public class login extends AppCompatActivity {
                         }else{
                             Toast.makeText(login.this,"Usted se encuentra bloqueado",Toast.LENGTH_SHORT).show();
                         }
-
-
-                        Toast.makeText(login.this,"Usted se puede loguear",Toast.LENGTH_SHORT).show();
                     }else{
                         Toast.makeText(login.this,"Usuario o contraseña incorrecto",Toast.LENGTH_SHORT).show();
                     }

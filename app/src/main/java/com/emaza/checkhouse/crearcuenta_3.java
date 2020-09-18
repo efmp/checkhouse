@@ -137,6 +137,8 @@ public class crearcuenta_3 extends AppCompatActivity {
         Bundle b = new Bundle();
         String mensaje = "Completó correctamente el registro.";
         b.putString("mensaje",mensaje);
+        b.putString("boton","Regresar a Login");
+        b.putString("screen","login");
         crearcuenta3.putExtras(b);
         setResult(Activity.RESULT_OK,crearcuenta3);
         startActivity(crearcuenta3);

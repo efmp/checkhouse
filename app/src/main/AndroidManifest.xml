@@ -10,13 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ListaSolicitudes"></activity>
+        <activity android:name=".RegistrarSolicitud"></activity>
+        <activity android:name=".ListaSolicitudes" />
         <activity android:name=".alertas_verificacion" />
         <activity android:name=".iniciar_verificacion" />
         <activity android:name=".restablecer_contrasenia" />
-        <activity android:name=".login"></activity>
-        <activity android:name=".Maps"></activity>
-        <activity android:name=".BuscarUsuario" />
+        <activity android:name=".login" />
+        <activity android:name=".Maps" />
+        <activity android:name=".BuscarUsuario"
+            android:theme="@style/AppTheme.TemaPopup"/>
         <activity android:name=".foto" />
         <activity android:name=".agregar_foto" />
         <activity android:name=".Act_CompararDirecciones" />
@@ -38,7 +40,7 @@
         <activity android:name=".sucessful_access" />
         <activity android:name=".crearcuenta_3" />
         <activity android:name=".crearcuenta_2" />
-        <activity android:name=".crearcuenta_1"></activity>
+        <activity android:name=".crearcuenta_1" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -57,8 +59,8 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

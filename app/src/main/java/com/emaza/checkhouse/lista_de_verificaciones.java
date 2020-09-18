@@ -53,18 +53,18 @@ public class lista_de_verificaciones extends AppCompatActivity {
         btnRegistrarSolicitud.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                irRegistrarSolicitud();
             }
         });
 
     }
 
     private void irRegistrarSolicitud(){
-        Intent listaVerificaciones = new Intent(this, lista_de_verificaciones.class);
+        Intent registrar = new Intent(this, RegistrarSolicitud.class);
         Bundle b = new Bundle();
         b.putString("data", usuario_json.toString());
-        listaVerificaciones.putExtras(b);
-        setResult(Activity.RESULT_OK,listaVerificaciones);
-        startActivity(listaVerificaciones);
+        registrar.putExtras(b);
+        setResult(Activity.RESULT_OK,registrar);
+        startActivity(registrar);
     }
 }
