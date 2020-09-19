@@ -37,48 +37,52 @@ public class solicitudesAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         final View vista = inflater.inflate(R.layout.solicitud_modelo, null);
-
         txtDescripcion = vista.findViewById(R.id.txtDescripcion);
         txtEstado = vista.findViewById(R.id.txtEstado);
         imgBanco = vista.findViewById(R.id.imgBanco);
         btnEmpezar = vista.findViewById(R.id.btnEmpezar);
 
+        try{
+                String texto= datos[i][6]+" ha solicitado que Ud. realice la verificación de su domicilio";
+                txtDescripcion.setText(texto);
+                txtEstado.setText(datos[i][7]);
 
-        String texto= datos[i][6]+" ha solicitado que Ud. realice la verificación de su domicilio";
-        txtDescripcion.setText(texto);
-        txtEstado.setText(datos[i][7]);
-        int indexImagen=0;
-        if(datos[i][6].equals("Interbank")){
-            indexImagen=1;
-        }else if(datos[i][6].equals("BCP")){
-            indexImagen=0;
-        }
-        imgBanco.setImageResource(datosImg[indexImagen]);
-        imgBanco.setTag(indexImagen);
-        btnEmpezar.setTag(i);
-        btnEmpezar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Hacer Intent
-                Intent visorImagen = new Intent(contexto, Maps.class);
-                //enviar Data
-                contexto.startActivity(visorImagen);
+
+            if(datos[i][6].equalsIgnoreCase("BCP")){
+                imgBanco.setImageResource(R.drawable.bcpicon);
+
+            }else if(datos[i][6].equalsIgnoreCase("Interbank")){
+                imgBanco.setImageResource(R.drawable.interbank);
+            }else{
+                imgBanco.setImageResource(R.drawable.banco_vacio);
             }
-        });
+
+
+                imgBanco.setTag(i);
+
+                btnEmpezar.setTag(i);
+                btnEmpezar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //Hacer Intent
+                        Intent visorImagen = new Intent(contexto, Maps.class);
+                        //enviar Data
+                        contexto.startActivity(visorImagen);
+                    }
+                });
+
+        }
+        catch (Exception e){
+            System.out.println("Error aqui");
+        }
+
+
 
 
         return vista;
     }
 
-//        dataProducto.put("id", String.valueOf(solicitud.getId()));
-//        dataProducto.put("usuario", String.valueOf(solicitud.getIdusuario()));
-//        dataProducto.put("nombres", "S/. "+solicitud.getNombres());
-//        dataProducto.put("apellidos", solicitud.getApellidos());
-//        dataProducto.put("dni", solicitud.getDni());
-//        dataProducto.put("banco", solicitud.getBanco());
-//        dataProducto.put("estado",solicitud.getEstado());
-//        dataProducto.put("descripcion",solicitud.getBanco()+" ha solicitado que Ud. realice la verificación de su domicilio");
-//        dataProducto.put("btnempezar","Empezar2");
+
     @Override
     public int getCount() {
         return datosImg.length;
