@@ -22,6 +22,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -35,9 +36,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.lang.reflect.Array;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RegistrarSolicitud extends AppCompatActivity {
 
@@ -46,10 +50,24 @@ public class RegistrarSolicitud extends AppCompatActivity {
     Button btnAddObligatoria, btnAddOpcional, btnBuscar, btnRegistrar, btnCancelar;
     String descripcion;
     ConstraintLayout layout;
+    JsonObject usuario;
+    JsonObject  solicitante;
+    ArrayList<String> listaobligatorio= new ArrayList<>();
+    ArrayList<String> listaopcional= new ArrayList<>();
+    ArrayAdapter<String> adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_solicitud);
+        Bundle extras = getIntent().getExtras();
+        String data = "";
+        if(extras == null){
+            Toast.makeText(this,"Data is null",Toast.LENGTH_SHORT).show();
+        }else{
+            data = extras.getString("data");
+            solicitante = new JsonParser().parse(data).getAsJsonObject();
+        }
         asignarReferencias();
     }
     @Override
@@ -59,11 +77,8 @@ public class RegistrarSolicitud extends AppCompatActivity {
         cerrarteclado();
     }
 
-
-    ArrayList<String> listaobligatorio= new ArrayList<>();
-    ArrayList<String> listaopcional= new ArrayList<>();
-    ArrayAdapter<String> adapter;
     private void asignarReferencias() {
+        //region REFERENCIAS
         txtDni = findViewById(R.id.txtDNI);
         txtUsuario = findViewById(R.id.txtUsuario);
         lstObligatoria = findViewById(R.id.lstObligatorio);
@@ -75,8 +90,8 @@ public class RegistrarSolicitud extends AppCompatActivity {
         btnCancelar = findViewById(R.id.btnCancelar);
         btnRegistrar = findViewById(R.id.btnRegistrar);
         layout = findViewById(R.id.layout);
-
-
+        //endregion
+        //region BOTON BUSCAR
         btnBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,11 +99,11 @@ public class RegistrarSolicitud extends AppCompatActivity {
                     Toast.makeText(RegistrarSolicitud.this,"Ingrese dni",Toast.LENGTH_SHORT).show();
                 }else{
                     String url = "http://checkhouseapi.atwebpages.com/controller/usuario.php/usuario/"+txtDni.getText().toString();
-                    System.out.println("URL: "+url);
+
                     hacerGetUsuario(url,new DataResponseListener(){
                         @Override
                         public void onResponseData(String data){
-                            System.out.println("RESPONSE: "+data);
+                            System.out.println("RESPONSE (DATOS USUARIO: "+data);
                             JsonArray jsonArray = new Gson().fromJson(data,JsonArray.class);
                             if(jsonArray.size()==0){
                                 txtUsuario.setText("");
@@ -101,6 +116,7 @@ public class RegistrarSolicitud extends AppCompatActivity {
                                 setResult(Activity.RESULT_OK,buscaruser);
                                 startActivity(buscaruser);
                                 JsonObject object = jsonArray.get(0).getAsJsonObject();
+                                usuario= object;
                                 txtUsuario.setText(object.get("nombres").getAsString()+" "+object.get("apellidos").getAsString());
 
                             }
@@ -110,6 +126,8 @@ public class RegistrarSolicitud extends AppCompatActivity {
 
             }
         });
+        //endregion
+        //region AGREGAR DESCRIPCION FOTO OBLIGATORIA
         btnAddObligatoria.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -142,7 +160,8 @@ public class RegistrarSolicitud extends AppCompatActivity {
                 mydialog.show();
             }
         });
-
+        //endregion
+        //region AGREGAR DESCRIPCION FOTO OPCIONAL
         btnAddOpcional.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -156,9 +175,7 @@ public class RegistrarSolicitud extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //positiveAction;
-
                         descripcion = inputText.getText().toString();
-
                         setListOpcional();
                         cerrarteclado();
                     }
@@ -173,12 +190,97 @@ public class RegistrarSolicitud extends AppCompatActivity {
                 mydialog.show();
             }
         });
-
+        //endregion
 
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(txtUsuario.getText().equals("")){
+                    Toast.makeText(RegistrarSolicitud.this,"busque un usuario",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    String url = "http://checkhouseapi.atwebpages.com/controller/solicitud.php/solicitud";
+                    System.out.println("URL: "+url);
+                    hacerPostSolicitud(url, new DataResponseListener() {
+                        @Override
+                        public void onResponseData(String data) {
+                            System.out.println("RESPONSE2: "+ data);
+                            if(!data.equals("")){
+                                JsonObject jsonObject = new JsonParser().parse(data).getAsJsonObject();
+                                System.out.println("SERVICIO: "+jsonObject.get("mensaje").getAsString());
 
+                                String idSolicitud = jsonObject.get("data").getAsJsonObject().get("id").getAsString();
+
+                                int cantidadObligatorio = listaobligatorio.size();
+                                int cantidadOpcional = listaopcional.size();
+                                String urldetalle = "http://checkhouseapi.atwebpages.com/controller/solicitud.php/detallesolicitud";
+                                int i;
+                                //region SERVICIO PARA OBLIGATORIO
+                                for(i=0; i<cantidadObligatorio;i++){
+                                    JsonObject objeto = new JsonObject();
+                                    objeto.addProperty("id",i+1);
+                                    objeto.addProperty("idsolicitud",idSolicitud);
+                                    objeto.addProperty("descripcion",listaobligatorio.get(i).trim());
+                                    objeto.addProperty("tipo","obligatorio");
+                                    hacerPostDetalleSolicitud(urldetalle, new DataResponseListener() {
+                                        @Override
+                                        public void onResponseData(String data) {
+                                            if(!data.equals("")){
+                                                System.out.println("RESPUESTA OBLIGATORIA:"+data);
+                                            }
+                                            else{
+                                                System.err.println("Error en el servicio de detalle");
+                                            }
+                                        }
+                                    },objeto);
+                                }
+                                //endregion
+                                System.out.println("indice contador:"+i);
+                                i = i+1;
+                                //region SERVICIO PARA OPCIONAL
+                                for(int j=0; j<cantidadOpcional;j++) {
+                                    JsonObject objeto = new JsonObject();
+                                    objeto.addProperty("id",j+i);
+                                    objeto.addProperty("idsolicitud",idSolicitud);
+                                    objeto.addProperty("descripcion",listaopcional.get(j).trim());
+                                    objeto.addProperty("tipo","opcional");
+                                    hacerPostDetalleSolicitud(urldetalle, new DataResponseListener() {
+                                        @Override
+                                        public void onResponseData(String data) {
+                                            if(!data.equals("")){
+                                                System.out.println("RESPUESTA OPCIONAL:"+data);
+                                            }
+                                            else{
+                                                System.err.println("Error en el servicio de detalle");
+                                            }
+                                        }
+                                    },objeto);
+                                }
+                                //endregion
+
+                                //INTENT EXITOSO
+
+                                Intent crearcuenta3 = new Intent(RegistrarSolicitud.this, sucessful_access.class);
+                                Bundle b = new Bundle();
+                                String mensaje = "Completó correctamente el registro de la solicitud.";
+                                b.putString("mensaje",mensaje);
+                                b.putString("boton","Ir a Inicio");
+                                b.putString("screen","listaverificaciones");
+                                b.putString("data",solicitante.toString());
+                                crearcuenta3.putExtras(b);
+                                setResult(Activity.RESULT_OK,crearcuenta3);
+                                startActivity(crearcuenta3);
+
+
+
+
+
+                            }else{
+                                Toast.makeText(RegistrarSolicitud.this,"Error servicio registrar solicitud",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
             }
         });
 
@@ -197,6 +299,9 @@ public class RegistrarSolicitud extends AppCompatActivity {
 
     }
 
+
+
+    //region SET LISTA
     private void setListObligatorio(){
         listaobligatorio.add(descripcion);
         adapter = new ArrayAdapter<String>(RegistrarSolicitud.this,android.R.layout.simple_list_item_1,listaobligatorio);
@@ -209,6 +314,7 @@ public class RegistrarSolicitud extends AppCompatActivity {
         lstOpcional.setAdapter(adapter);
         cerrarteclado();
     }
+    //endregion
 
     private void cerrarteclado() {
         View view = this.getCurrentFocus();
@@ -221,7 +327,7 @@ public class RegistrarSolicitud extends AppCompatActivity {
 
 
 
-
+    //region SERVICE GET
     private String scode;
     private void hacerGetUsuario(String url, final DataResponseListener mListener){
         scode=null;
@@ -247,6 +353,81 @@ public class RegistrarSolicitud extends AppCompatActivity {
         });
         queue.add(stringRequest);
     }
+    //endregion
+    //region SERVICE POST
+    private void hacerPostSolicitud(String url, final DataResponseListener mListener){
+        scode=null;
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response == "") scode = "Sin respuesta";
+                        else scode = response;
+                        if (mListener != null){
+                            mListener.onResponseData(scode);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                scode = error.getMessage();
+                if (mListener != null){
+                    mListener.onResponseData(scode);
+                }
+            }
+        }){
+            @Override
+            protected Map<String,String> getParams() throws AuthFailureError {
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("usuario", usuario.get("id").getAsString());
+                parametros.put("nombres", usuario.get("nombres").getAsString());
+                parametros.put("apellidos", usuario.get("apellidos").getAsString());
+                parametros.put("dni", usuario.get("dni").getAsString());
+                parametros.put("banco", solicitante.get("empresa").getAsString());
+                parametros.put("estado", "Pendiente");
+                return parametros;
+            }
+        };
+        queue.add(stringRequest);
+    }
+    private void hacerPostDetalleSolicitud(String url, final DataResponseListener mListener, final JsonObject detalle){
+        scode=null;
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        if (response == "") scode = "Sin respuesta";
+                        else scode = response;
+                        if (mListener != null){
+                            mListener.onResponseData(scode);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                scode = error.getMessage();
+                if (mListener != null){
+                    mListener.onResponseData(scode);
+                }
+            }
+        }){
+            @Override
+            protected Map<String,String> getParams() throws AuthFailureError {
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("id", detalle.get("id").getAsString());
+                parametros.put("idsolicitud", detalle.get("idsolicitud").getAsString());
+                parametros.put("descripcion", detalle.get("descripcion").getAsString());
+                parametros.put("tipo", detalle.get("tipo").getAsString());
+
+                return parametros;
+            }
+        };
+        queue.add(stringRequest);
+    }
+//endregion
+
     public interface DataResponseListener {
         void onResponseData(String data);
     }
