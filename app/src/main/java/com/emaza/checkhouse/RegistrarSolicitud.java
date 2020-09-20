@@ -266,6 +266,7 @@ public class RegistrarSolicitud extends AppCompatActivity {
                                 b.putString("mensaje",mensaje);
                                 b.putString("boton","Ir a Inicio");
                                 b.putString("screen","listaverificaciones");
+                                b.putString("data",solicitante.toString());
                                 crearcuenta3.putExtras(b);
                                 setResult(Activity.RESULT_OK,crearcuenta3);
                                 startActivity(crearcuenta3);

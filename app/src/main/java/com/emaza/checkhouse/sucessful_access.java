@@ -40,9 +40,10 @@ public class sucessful_access extends AppCompatActivity {
             public void onClick(View view) {
                 switch (finalScreen){
                     case "login":
-                        Intent login = new Intent(sucessful_access.this, login.class);
-                        setResult(Activity.RESULT_OK,login);
-                        startActivity(login);
+                        regresarALogin();
+                        break;
+                    case "listaverificaciones":
+                        regresarAListaVerificaciones();
                         break;
                     default:
                         System.out.println("No hacer nada");
@@ -61,5 +62,20 @@ public class sucessful_access extends AppCompatActivity {
         login.putExtras(b);
         setResult(Activity.RESULT_OK,login);
         startActivity(login);
+    }
+
+    private void regresarAListaVerificaciones(){
+        Bundle extras = getIntent().getExtras();
+        String data="";
+        if(extras!= null){
+            data = extras.getString("data");
+        }
+
+        Intent opciones_solicitante = new Intent(this, lista_de_verificaciones.class);
+        Bundle b = new Bundle();
+        b.putString("data",data);
+        opciones_solicitante.putExtras(b);
+        setResult(Activity.RESULT_OK,opciones_solicitante);
+        startActivity(opciones_solicitante);
     }
 }

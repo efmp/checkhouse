@@ -35,6 +35,7 @@ public class crearcuenta_2 extends AppCompatActivity {
         txtpassword = findViewById(R.id.txtPassword);
         txtpasswordconfirm = findViewById(R.id.txtPasswordConfirm);
         btnContinuar = findViewById(R.id.btnContinuar);
+        txtnombres.requestFocus();
         btnContinuar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
