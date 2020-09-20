@@ -62,6 +62,7 @@ public class sucessful_access extends AppCompatActivity {
         login.putExtras(b);
         setResult(Activity.RESULT_OK,login);
         startActivity(login);
+        finish();
     }
 
     private void regresarAListaVerificaciones(){
@@ -77,5 +78,6 @@ public class sucessful_access extends AppCompatActivity {
         opciones_solicitante.putExtras(b);
         setResult(Activity.RESULT_OK,opciones_solicitante);
         startActivity(opciones_solicitante);
+        finish();
     }
 }

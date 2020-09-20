@@ -23,6 +23,8 @@ public class lista_de_verificaciones extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_de_verificaciones);
+
+        //region OBTENER DATOS DE ANTERIOR PANTALLA
         Bundle extras = getIntent().getExtras();
         String data = "";
         if(extras == null){
@@ -31,6 +33,7 @@ public class lista_de_verificaciones extends AppCompatActivity {
             data = extras.getString("data");
             usuario_json = new JsonParser().parse(data).getAsJsonObject();
         }
+        //endregion
         asignarReferencias();
     }
 
@@ -39,7 +42,7 @@ public class lista_de_verificaciones extends AppCompatActivity {
         btnRegistrarSolicitud = findViewById(R.id.btnRegistrarSolicitud);
         imgBanco = findViewById(R.id.imgBanco);
 
-
+        //region MOSTRAR FOTO BANCO
         int indexImagen=0;
         if(usuario_json.get("empresa").getAsString().equalsIgnoreCase("Interbank")){
             indexImagen=2;
@@ -49,11 +52,19 @@ public class lista_de_verificaciones extends AppCompatActivity {
         if(indexImagen>0){
             imgBanco.setImageResource(datosImg[indexImagen]);
         }
+        //endregion
 
         btnRegistrarSolicitud.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 irRegistrarSolicitud();
+            }
+        });
+
+        btnEvaluar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                irEvaluarSolicitud();
             }
         });
 
@@ -67,4 +78,13 @@ public class lista_de_verificaciones extends AppCompatActivity {
         setResult(Activity.RESULT_OK,registrar);
         startActivity(registrar);
     }
+    private void irEvaluarSolicitud(){
+        Intent evaluar = new Intent(this, ListaSolicitudesEvaluar.class);
+        Bundle b = new Bundle();
+        b.putString("data", usuario_json.toString());
+        evaluar.putExtras(b);
+        setResult(Activity.RESULT_OK,evaluar);
+        startActivity(evaluar);
+    }
+
 }

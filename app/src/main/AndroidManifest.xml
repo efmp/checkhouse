@@ -10,9 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".DatosUsuarioPopup"
-            android:theme="@style/AppTheme.TemaPopup" ></activity>
-
+        <activity android:name=".ListaSolicitudesEvaluar"></activity>
+        <activity
+            android:name=".DatosUsuarioPopup"
+            android:theme="@style/AppTheme.TemaPopup" />
         <activity android:name=".RegistrarSolicitud" />
         <activity android:name=".ListaSolicitudes" />
         <activity android:name=".alertas_verificacion" />
@@ -20,9 +21,7 @@
         <activity android:name=".restablecer_contrasenia" />
         <activity android:name=".login" />
         <activity android:name=".Maps" />
-        <activity
-            android:name=".BuscarUsuario"
-            />
+        <activity android:name=".BuscarUsuario" />
         <activity android:name=".foto" />
         <activity android:name=".agregar_foto" />
         <activity android:name=".Act_CompararDirecciones" />
@@ -63,8 +62,8 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
 </manifest>
