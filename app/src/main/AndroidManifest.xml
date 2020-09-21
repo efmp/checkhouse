@@ -19,6 +19,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".DatosUsuarioPopup"
+            android:theme="@style/AppTheme.TemaPopup" >
+
+
+
+        </activity>
+
+
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -36,9 +44,7 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"></activity>
         <activity android:name=".ListaSolicitudesEvaluar" />
-        <activity
-            android:name=".DatosUsuarioPopup"
-            android:theme="@style/AppTheme.TemaPopup" />
+
         <activity android:name=".RegistrarSolicitud" />
         <activity android:name=".ListaSolicitudes" />
         <activity android:name=".alertas_verificacion" />
