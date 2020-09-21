@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:backgroundTint="#FFFFFF"
     tools:context=".sucessful_access">
+
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
@@ -43,11 +46,11 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginTop="150dp"
+        android:background="@drawable/success_process"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/success_process"
-        android:background="@drawable/success_process"/>
+        tools:srcCompat="@drawable/success_process" />
 
     <TextView
         android:id="@+id/lblMensaje"
