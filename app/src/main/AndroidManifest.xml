@@ -11,22 +11,39 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".DatosUsuarioPopup"
-            android:theme="@style/AppTheme.TemaPopup" ></activity>
+            android:theme="@style/AppTheme.TemaPopup" >
 
-        <activity android:name=".RegistrarSolicitud" />
+
+
+        </activity>
+
+        <activity android:name=".RegistrarSolicitud" >
+
+
+
+        </activity>
         <activity android:name=".ListaSolicitudes" />
         <activity android:name=".alertas_verificacion" />
         <activity android:name=".iniciar_verificacion" />
         <activity android:name=".restablecer_contrasenia" />
         <activity android:name=".login" />
         <activity android:name=".Maps" />
-        <activity
-            android:name=".BuscarUsuario"
-            />
+        <activity android:name=".BuscarUsuario" />
         <activity android:name=".foto" />
-        <activity android:name=".agregar_foto" />
+
+        <activity android:name=".agregar_foto">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
         <activity android:name=".Act_CompararDirecciones" />
         <activity android:name=".modificar_contrasenia" />
+
+
         <activity android:name=".lista_de_verificaciones" />
         <activity android:name=".lista_de_solicitudes_vacia" />
         <activity android:name=".Lista_de_solicitudes_terminada" />
@@ -45,13 +62,7 @@
         <activity android:name=".crearcuenta_3" />
         <activity android:name=".crearcuenta_2" />
         <activity android:name=".crearcuenta_1" />
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".MainActivity"></activity>
 
         <meta-data
             android:name="com.google.android.gms.version"
