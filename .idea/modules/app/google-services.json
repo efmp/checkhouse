@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "782080450526",
+    "firebase_url": "https://my-application-f6510.firebaseio.com",
+    "project_id": "my-application-f6510",
+    "storage_bucket": "my-application-f6510.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:782080450526:android:3a8abed9379127b726074f",
+        "android_client_info": {
+          "package_name": "com.emaza.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "782080450526-m5i32rv4rce2b32jplfdjtatpb61i3ul.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.emaza.myapplication",
+            "certificate_hash": "43556e96a55d60051518360bbf52f5557055a5d2"
+          }
+        },
+        {
+          "client_id": "782080450526-jeg4tqpdhlcnpisrq5dnugmpr05l68kh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMahK18aEEIPyOexDq4Paw3ZiigaWgjXM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "782080450526-jeg4tqpdhlcnpisrq5dnugmpr05l68kh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
