@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,14 +44,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ArrayList<Marker> tmpRealTimeMarkers = new ArrayList<>();
     private ArrayList<Marker> realTimeMarkers = new ArrayList<>();
 
-    double latitud;
-    double longitud;
+    Double latitud;
+    Double longitud;
     String local_idvivienda;
+    TextView countdowntext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        countdowntext = findViewById(R.id.countdowntext);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -60,10 +63,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void countDownTimer(){
-        new CountDownTimer(60000,1000){
+        new CountDownTimer(30000,1000){
             public void onTick(long millisUntilFinished){
-                Log.e("seconds remaining: ", "" + millisUntilFinished/1000);
 
+                //Log.e("seconds remaining: ", "" + millisUntilFinished/1000);
+                countdowntext.setText(""+millisUntilFinished/1000);
             }
             public void onFinish(){
                 Toast.makeText(MapsActivity.this,"Se verifico los puntos de su ubicación y seran evaluadas", Toast.LENGTH_SHORT).show();
@@ -108,7 +112,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mDatabase.child("Usuarios").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("Usuarios").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -171,6 +175,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 parametros.put("direccion", "null");
                 parametros.put("latitud", vivienda.get("latitud").getAsString());
                 parametros.put("longitud", vivienda.get("longitud").getAsString());
+
+                System.out.println("DATOS REQUEST: "+latitud+" | "+longitud);
                 return parametros;
             }
         };
