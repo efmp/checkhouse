@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.emaza.checkhouse">
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the "MyLocation" functionality.
     -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_logo"
@@ -19,15 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".DatosUsuarioPopup"
-            android:theme="@style/AppTheme.TemaPopup" >
-
-
+        <activity android:name=".uploadphotos">
 
         </activity>
-
-
-
+        <activity
+            android:name=".DatosUsuarioPopup"
+            android:theme="@style/AppTheme.TemaPopup"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -36,26 +28,17 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
-
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
-        <activity android:name=".ListaSolicitudesEvaluar" />
+            android:label="@string/title_activity_maps" />
 
+        <activity android:name=".ListaSolicitudesEvaluar" />
         <activity android:name=".RegistrarSolicitud" />
         <activity android:name=".ListaSolicitudes" />
         <activity android:name=".alertas_verificacion">
 
         </activity>
         <activity android:name=".iniciar_verificacion">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".restablecer_contrasenia">
 
@@ -69,6 +52,9 @@
         <activity android:name=".lista_de_verificaciones" />
         <activity android:name=".lista_de_solicitudes_vacia" />
         <activity android:name=".Lista_de_solicitudes_terminada" />
+        <activity
+            android:name=".ingresar_direccion"
+            android:label="@string/title_activity_maps" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -77,20 +63,28 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
-        <activity
-            android:name=".ingresar_direccion"
-            android:label="@string/title_activity_maps" />
         <activity android:name=".sucessful_access" />
         <activity android:name=".crearcuenta_3" />
         <activity android:name=".crearcuenta_2" />
         <activity android:name=".crearcuenta_1" />
         <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
 </manifest>

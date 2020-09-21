@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1032083238750-td837n85857a0onvieiohl797hbscb0h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.emaza.myapplication",
+            "certificate_hash": "ab9a7ba09665426d6b75871d5d552bc156606bb5"
+          }
+        },
+        {
           "client_id": "1032083238750-c9rsefbogcumivnt8ksb11v7u43n4ode.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

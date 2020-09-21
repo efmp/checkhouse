@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.emaza.checkhouse.uploadphotos">
+
+    <LinearLayout
+        android:id="@+id/BarContainer"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#2B78E4"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="TODO"
+            app:srcCompat="@drawable/ic_baseline_arrow_back_24"
+            app:tint="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/lblTittle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:text="Fotos Obligatorias"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imgIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="0.1"
+            app:srcCompat="@drawable/ic_baseline_check_circle_24"
+            app:tint="#FFFFFF"
+            tools:layout_marginRight="10dp" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lstfoto"
+        android:layout_width="409dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BarContainer" />
+
+    <Button
+        android:id="@+id/btnContinuar"
+        android:layout_width="150dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/buttomblue"
+        android:text="Continuar"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lstfoto" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
