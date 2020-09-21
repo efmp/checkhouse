@@ -3,9 +3,13 @@ package com.emaza.checkhouse;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,19 +51,44 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Double latitud;
     Double longitud;
     String local_idvivienda;
-    TextView countdowntext;
+    TextView countdowntext, text1, text2;
+    Button btnValidar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         countdowntext = findViewById(R.id.countdowntext);
+        text1 = findViewById(R.id.textView);
+        text2 = findViewById(R.id.textView2);
+        btnValidar = findViewById(R.id.button6);
+
+        countdowntext.setVisibility(View.INVISIBLE);
+        text2.setVisibility(View.INVISIBLE);
+        text2.setVisibility(View.INVISIBLE);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+
+        btnValidar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent login = new Intent(MapsActivity.this, login.class);
+                Bundle b = new Bundle();
+                String mensaje = "Completó correctamente el registro.";
+                b.putString("mensaje",mensaje);
+                login.putExtras(b);
+                setResult(Activity.RESULT_OK,login);
+                startActivity(login);
+                finish();
+
+            }
+        });
+
     }
 
     private void countDownTimer(){

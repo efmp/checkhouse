@@ -35,6 +35,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+    public static double LATITUD;
+    public static double LONGITUD;
 
     private FusedLocationProviderClient mFuseLocationClient;
     DatabaseReference mDatabase;
@@ -55,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
         ImageView logoImageView = findViewById(R.id.logoImageView);
         codeliaTextView.setAnimation(animacion2);
         logoImageView.setAnimation(animacion1);
+
+
+
 
         //trabajar aqui
 
@@ -103,6 +108,8 @@ public class MainActivity extends AppCompatActivity {
                             Map<String,Object> latlang = new HashMap<>();
                             latlang.put("latitud",location.getLatitude());
                             latlang.put("longitud",location.getLongitude());
+                            LATITUD = location.getLatitude();
+                            LONGITUD = location.getLongitude();
                             mDatabase.child("Usuarios").push().setValue(latlang);
                         }
                     }
