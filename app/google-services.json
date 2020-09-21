@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1032083238750",
+    "firebase_url": "https://proyectowmaps.firebaseio.com",
+    "project_id": "proyectowmaps",
+    "storage_bucket": "proyectowmaps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1032083238750:android:cf0cdbfde248a15d5969cf",
+        "android_client_info": {
+          "package_name": "com.emaza.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1032083238750-03va7l1t4cas8bedhdanu6n5mf29331j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVSCasmmpZ5MmL6_nnbfUAYVnp5u8oHd4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1032083238750-03va7l1t4cas8bedhdanu6n5mf29331j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
