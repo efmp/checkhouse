@@ -51,8 +51,8 @@ public class login extends AppCompatActivity {
 
         //prueba@correo.com
         //pw123
-        txtCorreo.setText("admin");
-        txtPassword.setText("admin");
+        txtCorreo.setText("prueba@correo.com");
+        txtPassword.setText("pw123");
 
         btnCrearCuenta.setOnClickListener(new View.OnClickListener() {
             @Override
