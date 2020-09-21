@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.emaza.checkhouse.Maps;
+import com.emaza.checkhouse.MapsActivity;
 import com.emaza.checkhouse.R;
 
 public class solicitudesAdapter extends BaseAdapter {
@@ -65,7 +65,7 @@ public class solicitudesAdapter extends BaseAdapter {
                     @Override
                     public void onClick(View view) {
                         //Hacer Intent
-                        Intent visorImagen = new Intent(contexto, Maps.class);
+                        Intent visorImagen = new Intent(contexto, MapsActivity.class);
                         //enviar Data
                         contexto.startActivity(visorImagen);
                     }

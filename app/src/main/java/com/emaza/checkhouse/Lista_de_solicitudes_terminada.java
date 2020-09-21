@@ -38,7 +38,7 @@ public class Lista_de_solicitudes_terminada extends AppCompatActivity {
         btnEmpezar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent home = new Intent(Lista_de_solicitudes_terminada.this, Maps.class);
+                Intent home = new Intent(Lista_de_solicitudes_terminada.this, MapsActivity.class);
                 setResult(Activity.RESULT_OK,home);
                 startActivity(home);
             }
