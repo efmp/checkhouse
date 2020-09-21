@@ -2,6 +2,7 @@ package com.emaza.checkhouse;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,12 +34,14 @@ public class restablecer_contrasenia extends AppCompatActivity {
 
     EditText txtCorreo;
     Button btnContinuar;
+    String correo, asunto, mensaje;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restablecer_contrasenia);
         asignarReferencia();
+        limpiar();
 
     }
     private void asignarReferencia(){
@@ -47,8 +50,8 @@ public class restablecer_contrasenia extends AppCompatActivity {
         btnContinuar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cambiarContraseña();
-                limpiar();
+                capturarDatos();
+
             }
         });
     }
@@ -57,9 +60,7 @@ public class restablecer_contrasenia extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast toast = Toast.makeText(restablecer_contrasenia.this,"Su contraseña fue restablecida",Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER,0,0);
-                toast.show();
+                irAScreenSucess();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -92,5 +93,48 @@ public class restablecer_contrasenia extends AppCompatActivity {
         Intent atras = new Intent(this, Lista_de_solicitudes_terminada.class);
         startActivity(atras);
     }
+    private void capturarDatos(){
+        correo = txtCorreo.getText().toString();
+        if(correo.equals("")){
+            Toast toast = Toast.makeText(this,"El campo correo no puede estar vacío",Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER,0,0);
+            toast.show();
+            limpiar();
+        }else
+            cambiarContraseña();
+            enviarCorreo();
+    }
+    private void limpiar(){
+        txtCorreo.setText("");
+    }
+    public void irAScreenSucess(){
+        Intent restablecer = new Intent(this, sucessful_access.class);
+        Bundle b = new Bundle();
+        String mensaje = "Su contraseña fue restablecida.";
+        b.putString("mensaje",mensaje);
+        b.putString("boton","Regresar a Login");
+        b.putString("screen","login");
+        restablecer.putExtras(b);
+        setResult(Activity.RESULT_OK,restablecer);
+        startActivity(restablecer);
+    }
+    private void enviarCorreo(){
+        String enviarcorreo = txtCorreo.getText().toString();
+        String enviarasunto = "Contraseña restablecida";
+        String enviarmensaje = "Su nueva contraseña es la siguiente: "+getRandomString(6);
 
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_EMAIL,
+                new String[] {enviarcorreo});
+        intent.putExtra(Intent.EXTRA_SUBJECT, enviarasunto);
+        intent.putExtra(Intent.EXTRA_TEXT, enviarmensaje);
+
+        intent.setType("message/rfc822");
+
+        // Lanzo el selector de cliente de Correo
+        startActivity(
+                Intent
+                        .createChooser(intent,"francorossell93@gmail.com"));
+
+    }
 }

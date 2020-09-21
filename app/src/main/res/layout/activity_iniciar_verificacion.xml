@@ -56,6 +56,7 @@
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
@@ -154,7 +155,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="25dp"
                     android:layout_weight="1"
-                    android:text="Usted recibirá 3 alertas en el lapso de 1 hora, así completará el proceso de auto-verificación."
+                    android:text="Usted recibirá 1 alerta en el lapso de 1 hora, así completará el proceso de auto-verificación."
                     android:textSize="15sp" />
             </LinearLayout>
 

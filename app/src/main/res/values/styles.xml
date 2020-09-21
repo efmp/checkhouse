@@ -11,4 +11,10 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowCloseOnTouchOutside">false</item>
     </style>
+
+
+    <style name="StyleAlert" parent="@style/Base.Widget.AppCompat.Button.Small">
+        <item name="android:background">@drawable/shape_alert</item>
+        <item name="android:src">@drawable/ic_notification_circle</item>
+    </style>
 </resources>

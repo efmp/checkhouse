@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true" android:drawable="@drawable/ic_notification_verde" />
-    <item android:drawable="@drawable/ic_notification_circle"/>
+    <item android:drawable="@drawable/ic_notification_verde" android:state_pressed="true" />
+    <item android:drawable="@drawable/ic_notification_circle" />
 </selector>
