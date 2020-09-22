@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -206,23 +207,13 @@ public class agregar_foto extends AppCompatActivity {
                     if(index<=sizeLista){
                         System.out.println("RESPUESTA:"+data);
                         Toast.makeText(agregar_foto.this,"se registro imagen",Toast.LENGTH_LONG).show();
-
+                        irAScreenSucess();
                         try {
                             Thread.sleep(2000);
                         }
                         catch (Exception e){
 
                         }
-
-//                        Intent mapas = new Intent(agregar_foto.this, agregar_foto.class);
-//                        Bundle b = new Bundle();
-//                        b.putString("data",data);
-//                        int indice = index+1;
-//                        System.out.println("INDICE IMAGEN:" + indice);
-//                        b.putString("indice",String.valueOf(indice));
-//                        mapas.putExtras(b);
-//                        startActivity(mapas);
-//                        finish();
                     }
                     else{
 
@@ -234,7 +225,17 @@ public class agregar_foto extends AppCompatActivity {
             }
         },json);
     }
-
+    public void irAScreenSucess(){
+        Intent crearcuenta3 = new Intent(agregar_foto.this, sucessful_access.class);
+        Bundle b = new Bundle();
+        String mensaje = "Se agrego la foto correctamente.";
+        b.putString("mensaje",mensaje);
+        b.putString("boton","Regresar a Login");
+        b.putString("screen","login");
+        crearcuenta3.putExtras(b);
+        setResult(Activity.RESULT_OK,crearcuenta3);
+        startActivity(crearcuenta3);
+    }
     private String imageToString(Bitmap bitmap){
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);

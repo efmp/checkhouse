@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -127,7 +128,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         new CountDownTimer(30000,1000){
             public void onTick(long millisUntilFinished){
 
-                //Log.e("seconds remaining: ", "" + millisUntilFinished/1000);
+                Log.e("seconds remaining: ", "" + millisUntilFinished/1000);
                 countdowntext.setText(""+millisUntilFinished/1000);
             }
             public void onFinish(){
