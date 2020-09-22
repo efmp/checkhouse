@@ -7,10 +7,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +19,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -38,7 +35,6 @@ import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -53,11 +49,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     String local_idvivienda;
     TextView countdowntext, text1, text2;
     Button btnValidar;
-
+    private String SOLICITUD;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        Bundle extras = getIntent().getExtras();
+        if(extras == null){
+            Toast.makeText(this,"Data is null",Toast.LENGTH_SHORT).show();
+        }else{
+            SOLICITUD = extras.getString("solicitud");
+        }
+
+
+
         countdowntext = findViewById(R.id.countdowntext);
         text1 = findViewById(R.id.textView);
         text2 = findViewById(R.id.textView2);
@@ -77,14 +83,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         btnValidar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent login = new Intent(MapsActivity.this, login.class);
-                Bundle b = new Bundle();
-                String mensaje = "Completó correctamente el registro.";
-                b.putString("mensaje",mensaje);
-                login.putExtras(b);
-                setResult(Activity.RESULT_OK,login);
-                startActivity(login);
-                finish();
+                final String url = "http://checkhouseapi.atwebpages.com/index.php/nuevavivienda";
+                JsonObject objeto = new JsonObject();
+                objeto.addProperty("latitud", MainActivity.LATITUD);
+                objeto.addProperty("longitud", MainActivity.LONGITUD);
+                hacerPostVivienda(url, new DataResponseListener() {
+                    @Override
+                    public void onResponseData(String data) {
+                        if(!data.equals("")){
+                            System.out.println("RESPUESTA:"+data);
+                            JsonObject json = new JsonParser().parse(data).getAsJsonObject();
+                            String idvivienda = json.get("data").getAsJsonObject().get("id").getAsString();
+                            local_idvivienda = idvivienda;
+                            System.out.println("SE OBTUVO VIVIENDA: "+idvivienda);
+
+                            Intent contador = new Intent(MapsActivity.this, alertas_verificacion.class);
+                            Bundle b = new Bundle();
+                            b.putString("solicitud",SOLICITUD);
+                            b.putString("vivienda",idvivienda);
+                            contador.putExtras(b);
+                            setResult(Activity.RESULT_OK,contador);
+                            startActivity(contador);
+                            finish();
+
+                        }
+                        else{
+                            System.err.println("Error en el servicio de detalle");
+                        }
+
+                    }
+                },objeto);
+
+
+
+
 
             }
         });
@@ -106,7 +138,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 JsonObject objeto = new JsonObject();
                 objeto.addProperty("latitud", String.valueOf(latitud));
                 objeto.addProperty("longitud", String.valueOf(longitud));
-                hacerPostDetalleSolicitud(url, new DataResponseListener() {
+                hacerPostVivienda(url, new DataResponseListener() {
                     @Override
                     public void onResponseData(String data) {
                         if(!data.equals("")){
@@ -176,7 +208,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     String scode;
-    private void hacerPostDetalleSolicitud(String url, final DataResponseListener mListener, final JsonObject vivienda){
+    private void hacerPostVivienda(String url, final DataResponseListener mListener, final JsonObject vivienda){
         scode=null;
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,

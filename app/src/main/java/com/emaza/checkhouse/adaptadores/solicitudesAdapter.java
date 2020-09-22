@@ -2,6 +2,7 @@ package com.emaza.checkhouse.adaptadores;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,11 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.emaza.checkhouse.MapsActivity;
 import com.emaza.checkhouse.R;
+import com.emaza.checkhouse.uploadphotos;
 
 public class solicitudesAdapter extends BaseAdapter {
 
@@ -32,6 +35,7 @@ public class solicitudesAdapter extends BaseAdapter {
         this.datos = datos;
         this.datosImg = datosImg;
         inflater = (LayoutInflater)contexto.getSystemService(contexto.LAYOUT_INFLATER_SERVICE);
+
     }
 
     @Override
@@ -64,10 +68,13 @@ public class solicitudesAdapter extends BaseAdapter {
                 btnEmpezar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //Hacer Intent
-                        Intent visorImagen = new Intent(contexto, MapsActivity.class);
-                        //enviar Data
-                        contexto.startActivity(visorImagen);
+
+                        Intent mapas = new Intent(contexto, MapsActivity.class);
+                        Bundle b = new Bundle();
+                        b.putString("solicitud",datos[(Integer)view.getTag()][1]);
+                        mapas.putExtras(b);
+                        Toast.makeText(contexto,"Solicitud:" +datos[(Integer)view.getTag()][1],Toast.LENGTH_SHORT).show();
+                        contexto.startActivity(mapas);
                     }
                 });
 

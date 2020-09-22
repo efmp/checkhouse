@@ -16,6 +16,7 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -25,7 +26,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -37,22 +41,43 @@ public class agregar_foto extends AppCompatActivity {
    final String url = "http://checkhouseapi.atwebpages.com/controller/solicitud.php/registrarfoto";
    String imagenStr;
 
-
-
     private ImageView mimageView;
     Button btnTomarFoto;
     Button btnSiguiente;
-
+    JsonArray listaDetalle;
+    int sizeLista;
+    int index = 0;
+    TextView text1, text2;
+    String data = "";
 
     private static final int REQUEST_IMAGE_CAPTURE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //region DATA
+        Bundle extras = getIntent().getExtras();
+
+        if(extras == null){
+            Toast.makeText(this,"Data is null",Toast.LENGTH_SHORT).show();
+        }else{
+            data = extras.getString("data");
+            listaDetalle = new Gson().fromJson(data,JsonArray.class);
+            sizeLista = listaDetalle.size();
+            index = Integer.parseInt(extras.getString("indice"));
+        }
+        //endregion
+
+
         setContentView(R.layout.activity_agregar_foto);
         mimageView = findViewById(R.id.imgfoto);
         btnSiguiente = findViewById(R.id.btnSiguiente);
         btnTomarFoto = findViewById(R.id.boton);
+        text1 = findViewById(R.id.textView2);
+        text2 = findViewById(R.id.textView3);
+
+        text1.setText(listaDetalle.get(index).getAsJsonObject().get("descripcion").getAsString());
+        text2.setText(listaDetalle.get(index).getAsJsonObject().get("tipo").getAsString());
 
         if (ContextCompat.checkSelfPermission(agregar_foto.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
         {
@@ -171,15 +196,37 @@ public class agregar_foto extends AppCompatActivity {
 
     private void uploadimage(){
         JsonObject json = new JsonObject();
-        json.addProperty("id","1");
-        json.addProperty("idsolicitud","3");
+        json.addProperty("id",listaDetalle.get(index).getAsJsonObject().get("id").getAsString());
+        json.addProperty("idsolicitud",listaDetalle.get(index).getAsJsonObject().get("idsolicitud").getAsString());
         json.addProperty("foto",imagenStr);
         hacerPostDetalleSolicitud(url, new DataResponseListener() {
             @Override
             public void onResponseData(String data) {
                 if(!data.equals("")){
-                    System.out.println("RESPUESTA:"+data);
-                    Toast.makeText(agregar_foto.this,"SERVICIO WORNKING\n"+data,Toast.LENGTH_SHORT).show();
+                    if(index<=sizeLista){
+                        System.out.println("RESPUESTA:"+data);
+                        Toast.makeText(agregar_foto.this,"se registro imagen",Toast.LENGTH_LONG).show();
+
+                        try {
+                            Thread.sleep(2000);
+                        }
+                        catch (Exception e){
+
+                        }
+
+//                        Intent mapas = new Intent(agregar_foto.this, agregar_foto.class);
+//                        Bundle b = new Bundle();
+//                        b.putString("data",data);
+//                        int indice = index+1;
+//                        System.out.println("INDICE IMAGEN:" + indice);
+//                        b.putString("indice",String.valueOf(indice));
+//                        mapas.putExtras(b);
+//                        startActivity(mapas);
+//                        finish();
+                    }
+                    else{
+
+                    }
                 }
                 else{
                     System.err.println("Error en el servicio de detalle");
@@ -188,24 +235,11 @@ public class agregar_foto extends AppCompatActivity {
         },json);
     }
 
-
-
-
-
     private String imageToString(Bitmap bitmap){
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
         byte[] imgBytes = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(imgBytes,Base64.DEFAULT);
     }
-
-
-
-
-
-
-
-
-
 }
 
